@@ -1,18 +1,9 @@
 package com.example.plan.entity;
 
-
-import java.time.Instant;
-import java.util.Date;
-
-import org.antlr.v4.runtime.misc.NotNull;
+import java.time.LocalDateTime;
 import org.hibernate.annotations.CurrentTimestamp;
-import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import io.micrometer.common.lang.NonNull;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,15 +11,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Table(name = "T_SAV_RET_ULIP_PLAN")	
 public class SaveRetirementUlipPlan { 
 	
@@ -41,40 +34,40 @@ public class SaveRetirementUlipPlan {
 	
 	@Column(name ="savingTenureYrs")
 	@NonNull
-	private int savingTenureYrs; //	 NOTNULL
+	private Integer savingTenureYrs; //	 NOTNULL
 	
 	@Column(name = "savingPremium")
-	private double savingPremium;
+	private Double savingPremium;
 	
 	@NonNull
 	@Column(name = "savingAmt")	
-	private double savingAmt;	
+	private Double savingAmt;	
 
 	@NonNull
 	@Column(name = "savingMaturityYrs")
-	private int savingMaturityYrs; // NOTNULL
+	private Integer savingMaturityYrs; // NOTNULL
 
 	@NonNull
 	@Column(name = "roi")
-	private int roi; // NOTNULL	
+	private Integer roi; // NOTNULL	
 
 	@Column(name = "createdBy")
 	private String createdBy;	
 
 	@CurrentTimestamp
 	@Column(name = "createdDate")
-	private Instant createdDate;	//TIMESTAMP	
+	private LocalDateTime createdDate;	//TIMESTAMP	
 
 	@Column(name = "modifiedBy")
 	private String modifiedBy;	
 
 	@UpdateTimestamp
 	@Column(name = "modifiedDate")
-	private Instant modifiedDate; //	TIMESTAMP
+	private LocalDateTime modifiedDate; //	TIMESTAMP
 
 	@NonNull
 	@Column(name = "active")
-	private boolean active;	
+	private Boolean active;	
 	/*
 	 * @OneToOne
 	 * @JoinColumn(name = "customerId", referencedColumnName = "id")

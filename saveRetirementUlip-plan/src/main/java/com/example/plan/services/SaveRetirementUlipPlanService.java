@@ -15,7 +15,6 @@ public interface SaveRetirementUlipPlanService {
 
 	//--------------------------
 	
-	public ResponseEntity<PlanType> createPlanType(PlanType planType) ;
-	public ResponseEntity<PlanType> getPlanbyId(@RequestParam Integer planName);
+	
 	
 }

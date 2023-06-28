@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.example.plan.entity.SaveRetirementUlipPlan;
 
 @Repository
-public interface SaveReturnUlipPlanRepository extends JpaRepository<SaveRetirementUlipPlan, Integer>, JpaSpecificationExecutor<SaveRetirementUlipPlan>{
+public interface SaveRetirementUlipPlanRepository extends JpaRepository<SaveRetirementUlipPlan, Integer>, JpaSpecificationExecutor<SaveRetirementUlipPlan>{
 	
 	//List<SaveRetirementUlipPlan> findByTCustomerCustomerId(Integer customerId);
 	

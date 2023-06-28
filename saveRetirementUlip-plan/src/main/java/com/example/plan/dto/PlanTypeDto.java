@@ -1,23 +1,33 @@
 package com.example.plan.dto;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
+
+import org.springframework.stereotype.Component;
+
 import com.example.plan.enums.PlanTypeEnum;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class PlanTypeDto {
 
 	private Integer planTypeId;
 	
-	@NotEmpty(message = "Please Enter Unique planCode")
 	private int planCode;
-	
-	@NotEmpty(message = "Please Enter Unique planName")
 	private PlanTypeEnum planName;
-	
 	private String createdBy;
 	private LocalDateTime createdDate;
 	private String modifiedBy;
