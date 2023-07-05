@@ -4,20 +4,23 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 import com.example.plan.entity.PlanType;
 import com.example.plan.entity.TCustomer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @Component
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@JsonIgnoreProperties(value = { "savingPremium" })
 public class SaveRetirementUlipPlanDto{
 	
 	@Id
@@ -26,20 +29,21 @@ public class SaveRetirementUlipPlanDto{
 	@NotNull(message = "savingTenureYrs should not be null")
 	private Integer savingTenureYrs;
 
-	@NotNull(message = "savingPremium should not be null")
-	private Double savingPremium;
 
-	@NotNull(message = "savingAmt should not be null")
+	private Long savingPremium;
+
+	//@NotNull(message = "savingAmt should not be null")
 	private Double savingAmt;	
 
-	@NotNull(message = "savingMaturityYrs should not be null")
+	//@NotNull(message = "savingMaturityYrs should not be null")
 	private Integer savingMaturityYrs;
 
 	@NotNull(message = "rate Of Interest should not be null")
-	private Integer roi;
+	private Double roi;
 	
 	private String createdBy;	
 	private LocalDateTime createdDate;
+	
 	private String modifiedBy;	
 	private LocalDateTime modifiedDate;
 	

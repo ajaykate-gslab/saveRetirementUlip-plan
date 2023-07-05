@@ -68,6 +68,15 @@ public class CustomExceptionHandler{
 		 
 	 }
 	 
+	 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	 @ExceptionHandler(NullPointerException.class)
+	 public List<Errors> handleNullPointerException(NullPointerException ex){
+		 Map<String, String> errorMap = new HashMap<>();
+	        errorMap.put("errorMessage", ex.getLocalizedMessage());
+		 return  buildCustomError(errorMap, HttpStatus.INTERNAL_SERVER_ERROR);
+		 
+	 }
+	 
 	 
 	 
 	    private List<Errors> buildCustomError(Map<String, String> errorMap,HttpStatus status){

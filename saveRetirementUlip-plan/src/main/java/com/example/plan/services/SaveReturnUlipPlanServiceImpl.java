@@ -1,31 +1,32 @@
 package com.example.plan.services;
 
-import java.lang.StackWalker.Option;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.example.plan.dto.PlanTypeDto;
+import com.example.plan.calculator.RetirementPlanCalculator;
+import com.example.plan.calculator.SavingPlanCalculator;
+import com.example.plan.calculator.UlipPlanCalculator;
+import com.example.plan.dto.PlanResponse;
 import com.example.plan.dto.SaveRetirementUlipPlanDto;
 import com.example.plan.entity.PlanType;
 import com.example.plan.entity.SaveRetirementUlipPlan;
 import com.example.plan.entity.TCustomer;
 import com.example.plan.enums.PlanTypeEnum;
-import com.example.plan.mapper.SaveRetirementUlipMapper;
+import com.example.plan.mapper.PlanMapper;
 import com.example.plan.repository.CustomerRepository;
 import com.example.plan.repository.PlanTypeRepository;
 import com.example.plan.repository.SaveRetirementUlipPlanRepository;
 import com.example.plan.util.Constants;
 
 @Service
-public class SaveReturnUlipPlanServiceImpl implements SaveRetirementUlipPlanService {
+@Component
+public class SaveReturnUlipPlanServiceImpl extends SavingPlanCalculator implements SaveRetirementUlipPlanService {
 
 	@Autowired
 	private SaveRetirementUlipPlanRepository saveRetirementUlipPlanRepository;
@@ -37,29 +38,58 @@ public class SaveReturnUlipPlanServiceImpl implements SaveRetirementUlipPlanServ
 	private PlanTypeRepository planTypeRepository;
 
 	@Autowired
-	private SaveRetirementUlipMapper PlanMapper;
+	private PlanMapper planMapper;
 
-// ---------------------------------- Create Plan  ---------------------
+	@Autowired
+	private SavingPlanCalculator savingCalc;
+	@Autowired
+	private RetirementPlanCalculator retirementCalc;
+	@Autowired
+	private UlipPlanCalculator ulipCalc;
+
+// ----------------------------------service to Create Plan by planType and customerId  ---------------------
+
 	@Override
-	public ResponseEntity<SaveRetirementUlipPlan> createPlan(Integer planTypeId,
+	public ResponseEntity<PlanResponse> createPlan(Integer planTypeId,
 			SaveRetirementUlipPlanDto saveRetirementUlipPlanDto) {
 
-		int customerId = saveRetirementUlipPlanDto.getTCustomer().getCustomerId();
+		int customerId =(int) saveRetirementUlipPlanDto.getTCustomer().getId();
 		// int planTypeId = saveRetirementUlipPlan.getPlanType().getPlanTypeId();
 
-		Optional<TCustomer> optionalCustomer = customerRepository.findById(customerId);
+		Optional<TCustomer> optionalCustomer = customerRepository.findById( customerId);
 		Optional<PlanType> optionalPlanType = planTypeRepository.findById(planTypeId);
 		PlanTypeEnum planType = optionalPlanType.get().getPlanName();
-
+		
+		Map<String, Long> calculatedResult = null;
+		PlanResponse response = null;
+		
 		if (optionalCustomer.isPresent()) {
 
 			if (optionalPlanType.isPresent()) {
-				saveRetirementUlipPlanDto.setSavingPremium(4800000.0);
 				saveRetirementUlipPlanDto.setTCustomer(optionalCustomer.get());
 				saveRetirementUlipPlanDto.setPlanType(optionalPlanType.get());
 
-				return new ResponseEntity<SaveRetirementUlipPlan>(saveRetirementUlipPlanRepository
-						.save(PlanMapper.toSaveRetirementUlipPlan(saveRetirementUlipPlanDto)), HttpStatus.CREATED);
+				if (planType.name().equals(Constants.ULIP)) {
+					Map<String, Object> calculatedResult2 = null;
+
+					calculatedResult2 = ulipCalc.ulipPlanCalculator(saveRetirementUlipPlanDto);
+					saveRetirementUlipPlanDto.setSavingPremium((long) calculatedResult2.get("result"));
+
+				} else if (planType.name().equals(Constants.SAVING)) {
+					calculatedResult = savingCalc.savingPlanCalculator(saveRetirementUlipPlanDto);
+					saveRetirementUlipPlanDto.setSavingPremium(calculatedResult.get("premium"));
+				
+				} else if (planType.name().equals(Constants.RETIREMENT)) {
+
+					calculatedResult = retirementCalc.retirementPlanCalculator(saveRetirementUlipPlanDto);
+					saveRetirementUlipPlanDto.setSavingPremium(calculatedResult.get("coverAmountRoundOff"));
+				}
+				
+				SaveRetirementUlipPlan plan = planMapper.toSaveRetirementUlipPlan(saveRetirementUlipPlanDto);
+				PlanResponse planResponse= planMapper.toPlanResponse(saveRetirementUlipPlanRepository.save(plan));
+				
+				return new ResponseEntity<PlanResponse>(planResponse,
+						HttpStatus.CREATED);
 			} else {
 				return new ResponseEntity("PlanType Not Found", HttpStatus.NOT_FOUND);
 			}
@@ -71,7 +101,7 @@ public class SaveReturnUlipPlanServiceImpl implements SaveRetirementUlipPlanServ
 
 	}
 
-// --------------- to get Plan records by customerId --------------------------
+// ---------------service to get Plan records by customerId --------------------------
 
 	public ResponseEntity<List<SaveRetirementUlipPlan>> fetchPlanByCustomerId(Integer customerId) {
 		Optional<TCustomer> optionalCustomer = customerRepository.findById(customerId);
@@ -88,6 +118,5 @@ public class SaveReturnUlipPlanServiceImpl implements SaveRetirementUlipPlanServ
 		}
 
 	}
-
 
 }

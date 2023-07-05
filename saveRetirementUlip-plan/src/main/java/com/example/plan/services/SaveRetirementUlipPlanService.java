@@ -2,19 +2,14 @@ package com.example.plan.services;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.plan.dto.PlanResponse;
 import com.example.plan.dto.SaveRetirementUlipPlanDto;
-import com.example.plan.entity.PlanType;
-import com.example.plan.entity.SaveRetirementUlipPlan;
 
 @Service
 public interface SaveRetirementUlipPlanService {
 	
-	public ResponseEntity<SaveRetirementUlipPlan> createPlan(Integer planTypeId,SaveRetirementUlipPlanDto dto);
+	public ResponseEntity<PlanResponse> createPlan(Integer planTypeId,SaveRetirementUlipPlanDto dto);
 
-	//--------------------------
-	
-	
 	
 }

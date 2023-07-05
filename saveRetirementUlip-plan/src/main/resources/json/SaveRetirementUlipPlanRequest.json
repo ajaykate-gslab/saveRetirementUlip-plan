@@ -1,0 +1,13 @@
+{
+    "savingTenureYrs": 20,
+    "savingPremium": 4800000.0,
+    "savingAmt": 16000.0,
+    "savingMaturityYrs": 25,
+    "roi": 4,
+    "active":true,
+    "createdBy": "Aman",
+    "modifiedBy": "Aman",
+    "tcustomer": {
+        "customerId": 2
+    }
+}

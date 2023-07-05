@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+//@Builder
 @Table(name = "T_SAV_RET_ULIP_PLAN")	
 public class SaveRetirementUlipPlan { 
 	
@@ -37,7 +37,7 @@ public class SaveRetirementUlipPlan {
 	private Integer savingTenureYrs; //	 NOTNULL
 	
 	@Column(name = "savingPremium")
-	private Double savingPremium;
+	private Long savingPremium;
 	
 	@NonNull
 	@Column(name = "savingAmt")	
@@ -49,14 +49,14 @@ public class SaveRetirementUlipPlan {
 
 	@NonNull
 	@Column(name = "roi")
-	private Integer roi; // NOTNULL	
+	private Double roi; // NOTNULL	
 
 	@Column(name = "createdBy")
 	private String createdBy;	
 
 	@CurrentTimestamp
 	@Column(name = "createdDate")
-	private LocalDateTime createdDate;	//TIMESTAMP	
+	private LocalDateTime createdDate;	
 
 	@Column(name = "modifiedBy")
 	private String modifiedBy;	

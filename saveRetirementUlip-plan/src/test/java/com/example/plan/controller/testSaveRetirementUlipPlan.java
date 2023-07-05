@@ -19,7 +19,6 @@ import com.example.plan.dto.SaveRetirementUlipPlanDto;
 import com.example.plan.entity.SaveRetirementUlipPlan;
 import com.example.plan.mapper.PlanTypeMapper;
 import com.example.plan.mapper.PlanTypeMapperImpl;
-import com.example.plan.mapper.SaveRetirementUlipMapper;
 import com.example.plan.services.SaveRetirementUlipPlanService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -28,8 +27,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class testSaveRetirementUlipPlan {
 	@Autowired
     private MockMvc mockMvc;
-	@Autowired
-	private SaveRetirementUlipMapper mapper;
+	/*
+	 * @Autowired private SaveRetirementUlipMapper mapper;
+	 */
 	@Autowired
 	private ObjectMapper objectMapper;
 	@Autowired
@@ -46,7 +46,7 @@ public class testSaveRetirementUlipPlan {
         
         SaveRetirementUlipPlan expectedResponse = objectMapper.readValue(getClass().getResourceAsStream("/json/SaveRetirementUlipPlan.json"),SaveRetirementUlipPlan.class);
 
-        when(service.createPlan(1,request)).thenReturn(new ResponseEntity<SaveRetirementUlipPlan>(expectedResponse,HttpStatus.CREATED));
+      //  when(service.createPlan(1,request)).thenReturn(new ResponseEntity<SaveRetirementUlipPlan>(expectedResponse,HttpStatus.CREATED));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/oneappabc/adityabirla/api/v1/lifeinsurance/childplan")
                         .contentType(MediaType.APPLICATION_JSON)

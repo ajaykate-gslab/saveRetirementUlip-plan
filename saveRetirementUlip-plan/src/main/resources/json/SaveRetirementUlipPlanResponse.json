@@ -1,0 +1,24 @@
+{
+    "savingId": 1502,
+    "savingTenureYrs": 20,
+    "savingPremium": 4800000.0,
+    "savingAmt": 16000.0,
+    "savingMaturityYrs": 25,
+    "roi": 4,
+    "createdBy": "Aman",
+    "createdDate": "2023-06-29T23:23:39.611774",
+    "modifiedBy": "Aman",
+    "modifiedDate": "2023-06-29T23:23:39.60543",
+    "active": true,
+    "planType": {
+        "planTypeId": 1,
+        "planCode": 3,
+        "planName": "CHILD",
+        "createdBy": null,
+        "createdDate": "2023-06-22T14:25:02.344667",
+        "modifiedBy": null,
+        "modifiedDate": "2023-06-22T08:55:02.325962",
+        "active": true
+    },
+    "tcustomer": null
+}
